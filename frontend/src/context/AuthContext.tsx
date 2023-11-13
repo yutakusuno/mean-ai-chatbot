@@ -5,7 +5,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { loginUser } from "../components/helpers/api-communicator";
+import {
+  checkAuthStatus,
+  loginUser,
+} from "../components/helpers/api-communicator";
 
 type User = {
   name: string;
@@ -28,6 +31,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // fetch if user's cookie is valid then skip login
+    (async () => {
+      const data = await checkAuthStatus();
+      if (data) {
+        setUser({ email: data.email, name: data.name });
+        setIsLoggedIn(true);
+      }
+    })();
   }, []);
 
   const login = async (email: string, password: string) => {
