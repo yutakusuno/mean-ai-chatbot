@@ -5,6 +5,12 @@ import "./index.css";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.tsx";
+import axios from "axios";
+import { Toaster } from "react-hot-toast";
+
+// check process.env.PORT
+axios.defaults.baseURL = "http://localhost:8080/api/v1";
+axios.defaults.withCredentials = true;
 
 const theme = createTheme({
   typography: {
@@ -18,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
+          <Toaster position="top-right" />
           <App />
         </ThemeProvider>
       </BrowserRouter>
