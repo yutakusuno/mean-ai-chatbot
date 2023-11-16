@@ -2,10 +2,10 @@ import { Router } from "express";
 import { verifyToken } from "../utils/token-manager.js";
 import { chatCompletionValidator, validate } from "../utils/validators.js";
 import {
+  deleteChats,
   generateChatCompletion,
   sendChatToUser,
 } from "../controllers/chat-controllers.js";
-import { send } from "process";
 
 const chatRoutes = Router();
 chatRoutes.post(
@@ -15,5 +15,6 @@ chatRoutes.post(
   generateChatCompletion
 );
 chatRoutes.get("/all-chats", verifyToken, sendChatToUser);
+chatRoutes.delete("/delete", verifyToken, deleteChats);
 
 export default chatRoutes;

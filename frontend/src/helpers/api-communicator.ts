@@ -21,7 +21,7 @@ export const checkAuthStatus = async () => {
 export const sendChatRequest = async (message: string) => {
   const response = await axios.post("/chat/new", { message });
   if (response.status !== 200) {
-    throw new Error("Error checking chat requests");
+    throw new Error("Error sending chat requests");
   }
   const data = await response.data;
   return data;
@@ -30,7 +30,16 @@ export const sendChatRequest = async (message: string) => {
 export const getUserChats = async () => {
   const response = await axios.get("/chat/all-chats");
   if (response.status !== 200) {
-    throw new Error("Error checking chat requests");
+    throw new Error("Error getting user chats");
+  }
+  const data = await response.data;
+  return data;
+};
+
+export const deleteUserChats = async () => {
+  const response = await axios.delete("/chat/delete");
+  if (response.status !== 200) {
+    throw new Error("Error deleting user chats");
   }
   const data = await response.data;
   return data;
