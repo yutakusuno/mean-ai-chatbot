@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const ChatItem = ({ content, role }: { content: string; role: string }) => {
   const auth = useAuth();

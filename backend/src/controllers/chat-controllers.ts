@@ -9,6 +9,7 @@ export const generateChatCompletion = async (
   next: NextFunction
 ) => {
   const { message } = req.body;
+
   try {
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {

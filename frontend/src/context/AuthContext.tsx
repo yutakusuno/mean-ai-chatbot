@@ -5,10 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import {
-  checkAuthStatus,
-  loginUser,
-} from "../components/helpers/api-communicator";
+import { checkAuthStatus, loginUser } from "../helpers/api-communicator";
 
 type User = {
   name: string;

@@ -5,18 +5,17 @@ export const validate = (validations: ValidationChain[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     for (let validation of validations) {
       const result = await validation.run(req);
-      console.log("result", result);
       if (!result.isEmpty()) {
         break;
       }
     }
     // TODO: result should be used here to check if there is any error? so that we could avoid calling validationResult(req) again?
     const errors = validationResult(req);
-    console.log("errors", errors);
 
     if (errors.isEmpty()) {
       return next();
     }
+
     return res.status(422).json({ errors: errors.array() });
   };
 };

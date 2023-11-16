@@ -1,30 +1,30 @@
 import { Avatar, Box, Button, IconButton, Typography } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { red } from "@mui/material/colors";
-import ChatItem from "../chat/ChatItem";
+import ChatItem from "../components/chat/ChatItem";
 import { IoMdSend } from "react-icons/io";
+import { useRef, useState } from "react";
+import { sendChatRequest } from "../helpers/api-communicator";
 
-const chatMessages = [
-  {
-    role: "user",
-    content: "Hello",
-  },
-  {
-    role: "assistant",
-    content: "Hey, how can I help you?",
-  },
-  {
-    role: "user",
-    content: "I want to know about the product",
-  },
-  {
-    role: "assistant",
-    content: "Sure, I can help you with that",
-  },
-];
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+};
 
 const Chat = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const auth = useAuth();
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+  const handleSubmit = async () => {
+    const content = inputRef.current?.value as string;
+    if (inputRef && inputRef.current) {
+      inputRef.current.value = "";
+    }
+    const newMessage: Message = { role: "user", content };
+    setChatMessages([...chatMessages, newMessage]);
+    const chatData = await sendChatRequest(content);
+    setChatMessages([...chatData.chats]);
+  };
 
   return (
     <Box
@@ -140,6 +140,7 @@ const Chat = () => {
           }}
         >
           <input
+            ref={inputRef}
             type="text"
             style={{
               width: "100%",
@@ -151,7 +152,10 @@ const Chat = () => {
               fontSize: "20px",
             }}
           />
-          <IconButton sx={{ ml: "auto", color: "white" }}>
+          <IconButton
+            onClick={handleSubmit}
+            sx={{ ml: "auto", color: "white" }}
+          >
             <IoMdSend />
           </IconButton>
         </div>
